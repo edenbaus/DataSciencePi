@@ -1,4 +1,3 @@
-
 # Pull base image
 FROM resin/rpi-raspbian:wheezy
 MAINTAINER Dieter Reuter <dieter@hypriot.com>
@@ -64,12 +63,15 @@ RUN Rscript -e "install.packages(c('repr', 'IRdisplay', 'crayon', 'pbdZMQ', 'dev
 
 RUN R -e "install.packages(('devtools'), repos='https://cloud.r-project.org'); devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec()" #Rscript -e "install.packages('devtools')"
 
-#RUN Rscript -e "devtools::install_github('IRkernel/IRkernel')"
-#RUN Rscript -e "IRkernel::installspec()"
+RUN echo "root:Docker!" | chpasswd
+RUN useradd -m -G sudo,users student
+RUN echo "student:Docker!" | chpasswd
 
-
+RUN chown student /home/student
 # Define working directory
-#WORKDIR /data
+WORKDIR /home/student
 
 # Define default command
-CMD ["bash"]
+
+USER root
+CMD jupyter-lab --ip 0.0.0.0  --port 9999 --LabApp.token='' --allow-root
