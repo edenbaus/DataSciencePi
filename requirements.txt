@@ -1,3 +1,7 @@
+faker
+cython
+scikit-learn
+scrapy
 pandas
 ipython
 jupyter
@@ -17,3 +21,10 @@ lxml
 requests
 networkx
 plotly
+pillow
+bokeh
+gensim
+SymPy
+keras
+pillow
+Exifread
