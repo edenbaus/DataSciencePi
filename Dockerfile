@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-dev \
     cython3 \
+    python3-cffi \
     python3-setuptools \
     python3-pip \
     pkg-config \
@@ -50,7 +51,23 @@ RUN pip3 install -r pyapp/requirements.txt
 RUN echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; options(repos = r);" > ~/.Rprofile
 RUN Rscript -e "install.packages('yhatr')"
 RUN Rscript -e "install.packages('ggplot2')"
-RUN Rscript -e "install.packages('plyr')"
+RUN Rscript -e "install.packages('googleVis')"
+RUN Rscript -e "install.packages('Outliers')"
+RUN Rscript -e "install.packages(c('features','Hmisc','party', 'ISLR','mice','NLP','foreign'))"
+RUN Rscript -e "install.packages('tm')"
+RUN Rscript -e "install.packages(c('CCP','RColorBrewer','colorspace','highr','evaluate','zoo','gtable','RcppEigen','yaml','BH','mtvnorm'))"
+RUN Rscript -e "install.packages(c('LSMeans','Comparison','RegTest','ACD','BinomTools','DAIM','ClustEval','SigClust','PROC','TimeROC'))"
+RUN Rscript -e "install.packages(c('car','RMiner','CoreLearn','caret','BigRF','CBA','RankCluster','LTSA','survival','Basta'))"
+RUN Rscript -e "install.packages(c('RMarkdown','qcc','jsonlite','RCurl','RWeka','parallel','Rcpp','twitteR'))"
+RUN Rscript -e "install.packages(c('igraph','nnet','glmnet','tree','arules','earth','mboost','CORElearn','ipred','klaR','party','ROCR','kernlab'))"
+RUN Rscript -e "install.packages('wordcloud')"
+RUN Rscript -e "install.packages(c('MissForest','MissMDA'))"
+RUN Rscript -e "install.packages('data.table')"
+RUN Rscript -e "install.packages('sqldf')"
+RUN Rscript -e "install.packages('forecast')"
+RUN Rscript -e "install.packages('RMYSQL')"
+RUN Rscript -e "install.packages('MASS')"
+RUN Rscript -e "install.packages('dplyr')"
 RUN Rscript -e "install.packages('reshape2')"
 RUN Rscript -e "install.packages('forecast')"
 RUN Rscript -e "install.packages('stringr')"
