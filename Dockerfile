@@ -116,5 +116,7 @@ WORKDIR /home/student
 
 # Define default command
 
+RUN pip3 install statsmodels
+
 USER root
 CMD jupyter-lab --ip 0.0.0.0  --port 9999 --LabApp.token='' --allow-root
