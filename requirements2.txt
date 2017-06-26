@@ -23,7 +23,11 @@ html5lib
 lxml
 requests
 networkx
-plotly
+dash==0.17.7
+dash-renderer==0.7.3
+dash-html-components==0.6.2
+dash-core-components==0.5.1
+plotly==2.0.11
 pillow
 bokeh
 

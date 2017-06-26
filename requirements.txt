@@ -1,6 +1,7 @@
 keras
 Exifread
 nose
+quandl
 peewee
 prettytable
 progressbar2
