@@ -1,11 +1,17 @@
 # Pull base image
 FROM resin/rpi-raspbian:wheezy
-MAINTAINER Dieter Reuter <dieter@hypriot.com>
+MAINTAINER Scott Edenbaum <scott.edenbaum@gmail.com>
 
 # Install dependencies
 RUN echo 'deb http://mirrordirector.raspbian.org/raspbian/ stretch main contrib non-free rpi' > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    screen \
+    cmake \
+    unzip \
+    libtiff5-dev \
     libhdf5-dev \
     python3 \
     python3-dev \
@@ -19,6 +25,13 @@ RUN apt-get update && apt-get install -y \
     python3-numpy \
     python3-scipy \
     libpng-dev \
+    libjasper-dev \
+    libavcodec-dev \
+    libswscale-dev \
+    libv4l-dev \
+    libxvidcore-dev \
+    libx264-dev \
+    libatlas-base-dev \
     libfreetype6-dev\
     libxft-dev \
     libblas-dev \
@@ -27,8 +40,6 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     libxml2-dev \
     libxslt-dev \
-    python-virtualenv \
-    python-setuptools \
     build-essential \
     ipython3 \
     libncurses5-dev \
@@ -47,6 +58,35 @@ RUN apt-get update && apt-get install -y \
 
 #RUN apt-get update && apt-get install -y libgeos-c1
 
+
+###### install opencv
+# RUN cd /tmp && \
+#     wget -O opencv.zip https://github.com/opencv/opencv/archive/3.2.0.zip && \
+#     unzip opencv.zip && \
+#     wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/3.2.0.zip && \
+#     unzip opencv_contrib.zip
+
+# build opencv
+# RUN cd /tmp/opencv-3.2.0 && \
+#     mkdir build && \
+#     cd build && \
+#     cmake -D CMAKE_BUILD_TYPE=RELEASE \
+#     -D CMAKE_INSTALL_PREFIX=/usr/local \
+#     -D INSTALL_C_EXAMPLES=ON \
+#     -D BUILD_PYTHON_SUPPORT=ON \
+#     -D BUILD_NEW_PYTHON_SUPPORT=ON \
+#     -D INSTALL_PYTHON_EXAMPLES=ON \
+#         -D OPENCV_EXTRA_MODULES_PATH=/tmp/opencv_contrib-3.2.0/modules \
+#     -D BUILD_EXAMPLES=ON .. && \
+#     make -j4 && \
+#     make && \
+#     make install && \
+#     make clean
+# 
+# # cleanup source
+# RUN cd /tmp && rm -rf opencv-3.2.0
+
+
 RUN mkdir -p pyapp
 COPY requirements*.txt pyapp/
 RUN pip3 install --upgrade pip
@@ -54,42 +94,11 @@ RUN pip3 install -r pyapp/requirements.txt
 RUN pip3 install -r pyapp/requirements2.txt
 #setup R
 RUN echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; options(repos = r);" > ~/.Rprofile
-RUN Rscript -e "install.packages('yhatr')"
-RUN Rscript -e "install.packages('rpart.plot')"
-RUN Rscript -e "install.packages('lattice')"
-RUN Rscript -e "install.packages('mlogit')"
-RUN Rscript -e "install.packages('moments')"
-RUN Rscript -e "install.packages('MNP')"
-RUN Rscript -e "install.packages('muhaz')"
-RUN Rscript -e "install.packages('tidytext')"
-RUN Rscript -e "install.packages('text2vec')"
-RUN Rscript -e "install.packages('LDAvis')"
-RUN Rscript -e "install.packages('mcmc')"
-RUN Rscript -e "install.packages('syuzhet')"
-RUN Rscript -e "install.packages('SnowballC')"
-RUN Rscript -e "install.packages('gmodels')"
-RUN Rscript -e "install.packages('descr')"
-RUN Rscript -e "install.packages('ggplot2')"
-RUN Rscript -e "install.packages('googleVis')"
-RUN Rscript -e "install.packages('Outliers')"
-RUN Rscript -e "install.packages('features')"
-RUN Rscript -e "install.packages('Hmisc')"
-RUN Rscript -e "install.packages('party')"
-RUN Rscript -e "install.packages('ISLR')"
-RUN Rscript -e "install.packages('mice')"
-RUN Rscript -e "install.packages('NLP')"
-RUN Rscript -e "install.packages('foreign')"
-RUN Rscript -e "install.packages('tm')"
-RUN Rscript -e "install.packages('CCP')"
-RUN Rscript -e "install.packages('RColorBrewer')"
-RUN Rscript -e "install.packages('colorspace')"
-RUN Rscript -e "install.packages('highr')"
-RUN Rscript -e "install.packages('evaluate')"
-RUN Rscript -e "install.packages('zoo')"
-RUN Rscript -e "install.packages('quantmod')"
-RUN Rscript -e "install.packages('TTR')"
-RUN Rscript -e "install.packages('fAssets')"
-RUN Rscript -e "install.packages('Bioconductor')"
+RUN Rscript -e "install.packages(c('yhatr','rpart.plot','lattice','mlogit','moments','MNP','muhaz','tidytext','text2vec'))"
+RUN Rscript -e "install.packages(c('LDAvis','mcmc','syuzhet','SnowballC','gmodels','descr','ggplot2','googleVis'))"
+RUN Rscript -e "install.packages(c('outliers','features','Hmisc','party','ISLR','mice','NLP','foreign','tm','CCP'))"
+RUN Rscript -e "install.packages(c('RColorBrewer','colorspace','highr','evaluate','zoo','quantmod','TTR','fAssets'))"
+RUN Rscript -e "install.packages(c('Bioconductor','Quandl','zipcode','treemap','worldmap','ellipse'))"
 RUN Rscript -e "install.packages(c('Leaflet','ggmap','swirl','gtable','RcppEigen','yaml','BH','mtvnorm'))"
 RUN Rscript -e "install.packages(c('LSMeans','Comparison','RegTest','ACD','BinomTools','DAIM','ClustEval','SigClust','PROC'))"
 RUN Rscript -e "install.packages(c('TimeROC','car','RMiner','CoreLearn','caret','BigRF','CBA','RankCluster'))"

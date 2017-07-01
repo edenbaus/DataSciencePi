@@ -1,3 +1,4 @@
+nltk
 keras
 Exifread
 nose
