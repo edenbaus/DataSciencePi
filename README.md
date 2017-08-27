@@ -4,7 +4,9 @@ Custom docker image with software to facilitate data science in R and Python
 
 The purpose of this is to piece together a 'turn-key' Raspberry-Pi compatible Data Science development environment accompanied by a large library of current and useful data science packages for R and Python.
 
-The result is a highly portable and convenient data science purposed platform that can connect to any web compatible device - laptops, smartphones, tablets, etc. The software runs in a docker image, so it can be managed remotelgIt run Jupyter-lab, a web interface to run Python and R in a markdown compatible 'notebook' environment.
+The result is a highly portable and convenient data science purposed platform that can connect to any web compatible device - laptops, smartphones, tablets, etc. The software runs in a docker image, so it can be managed remotely.
+
+The main interfacing software is Jupyter-lab, a web interface to run Python and R in a markdown compatible 'notebook' environment.
 
 Following the guide [here]('http://www.circuitbasics.com/raspberry-pi-zero-ethernet-gadget/') I enabled ethernet over USB on the Raspberry Pi Zero. I connect the Raspberry Pi to my laptop with a single USB cable - which provides power and network access to the Pi.
 
